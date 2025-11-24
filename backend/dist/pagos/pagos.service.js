@@ -93,7 +93,7 @@ let PagosService = class PagosService {
         if (!pago) {
             throw new common_1.NotFoundException('Pago no encontrado');
         }
-        if (pago.estado === 'pagado') {
+        if (pago.estado === 'exitoso') {
             throw new common_1.BadRequestException('Este pago ya ha sido procesado');
         }
         const usuario = await this.usuarioRepository.findOne({
@@ -131,7 +131,7 @@ let PagosService = class PagosService {
         usuario.balance = Number(usuario.balance) - Number(pago.monto);
         usuarioDestino.balance =
             Number(usuarioDestino.balance) + Number(pago.monto);
-        pago.estado = 'pagado';
+        pago.estado = 'exitoso';
         pago.fecha = new Date();
         await this.usuarioRepository.save([usuario, usuarioDestino]);
         await this.pagoRepository.save(pago);
