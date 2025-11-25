@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { PagosModule } from './pagos/pagos.module';
 import { AuthModule } from './auth/auth.module';
 import { databaseConfig } from './config/database.config';
+import { RolesGuard } from './common/roles.guard';
+import { Reflector } from '@nestjs/core';
 
 @Module({
   imports: [

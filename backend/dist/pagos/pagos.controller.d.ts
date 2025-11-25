@@ -15,6 +15,17 @@ export declare class PagosController {
         pagoId: number;
         nuevoBalance: number;
     }>;
+    listarPagos(query: any): Promise<{
+        data: import("./pago.entity").Pago[];
+        total: number;
+        page: number;
+        size: number;
+    }>;
     obtenerPago(id: string): Promise<import("./pago.entity").Pago>;
     obtenerMisPagos(req: any): Promise<import("./pago.entity").Pago[]>;
+    cancelarPago(id: string): Promise<{
+        success: boolean;
+        message: string;
+        pagoId: number;
+    }>;
 }

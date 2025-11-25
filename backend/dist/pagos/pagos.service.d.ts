@@ -27,4 +27,10 @@ export declare class PagosService {
     }>;
     obtenerPago(id: number): Promise<Pago>;
     obtenerPagosUsuario(userId: number): Promise<Pago[]>;
+    listarPagos(query: any): Promise<{
+        data: Pago[];
+        total: number;
+        page: number;
+        size: number;
+    }>;
 }

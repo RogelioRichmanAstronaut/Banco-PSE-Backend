@@ -24,7 +24,8 @@ INSERT INTO usuario (
     (1001222334, 'CC', 'Ana', 'Martinez', 'ana.martinez@email.com', '$2b$10$53S9dgPaTG0vxhBSK5Kw3uDpLh6VGmU0L2R7/k.POIaKyo5yEKrRS', '3012223344', 'Arquitecta', 'cliente', 300000.00),
     (9999999999, 'CC', 'Administrador', 'Sistema', 'admin@banco-pse.com', '$2b$10$I.zcGd4QPjlpYkYLCyvkgOjzyeBK5/e8vq3hAC2VQXKnoshFcLXUa', '3001112233', 'Administrador', 'administrador', 0.00),
     (9000123456, 'NIT', 'Banco', 'Javeriano', 'bancojaveriano@gmail.com', '$2b$10$0uH4QY0P/cy/iz7nngktc1uoKTIhdCCANqfQSVl8XX8kSPAN5T3eyq', '6001234567', 'Entidad Financiera', 'banco', 0.00),
-    (9000999887, 'NIT', 'Solución', 'Turismo', 'solucion.turismo@sistema.com', '$2b$10$lDnUj7qqWrayKmYYXlRj4eKldUJDpljFJoHTKadg.93ghI95Lp48W', '6009998877', 'Sistema de Turismo', 'cliente', 0.00);
+    (9000999887, 'NIT', 'Solución', 'Turismo', 'solucion.turismo@sistema.com', '$2b$10$lDnUj7qqWrayKmYYXlRj4eKldUJDpljFJoHTKadg.93ghI95Lp48W', '6009998877', 'Sistema de Turismo', 'cliente', 0.00),
+    (1234567901, 'CC', 'Dev', 'Tester', 'dev.tester@example.com', 'password123', '3001110000', 'Tester', 'cliente', 500000.00);
 
 -- PAGOS DE PRUEBA
 -- =====================================================

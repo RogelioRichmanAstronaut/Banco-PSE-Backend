@@ -176,6 +176,35 @@ let PagosService = class PagosService {
             order: { fecha: 'DESC' },
         });
     }
+    async listarPagos(query) {
+        const page = Number(query.page) > 0 ? Number(query.page) : 1;
+        const size = Number(query.size) > 0 ? Number(query.size) : 25;
+        const skip = (page - 1) * size;
+        const qb = this.pagoRepository.createQueryBuilder('pago');
+        if (query.estado) {
+            qb.andWhere('pago.estado = :estado', { estado: query.estado });
+        }
+        if (query.userId) {
+            qb.andWhere('pago.id_usuario = :userId', { userId: query.userId });
+        }
+        if (query.from) {
+            qb.andWhere('pago.fecha >= :from', { from: query.from });
+        }
+        if (query.to) {
+            qb.andWhere('pago.fecha <= :to', { to: query.to });
+        }
+        const [data, total] = await qb
+            .orderBy('pago.fecha', 'DESC')
+            .skip(skip)
+            .take(size)
+            .getManyAndCount();
+        return {
+            data,
+            total,
+            page,
+            size,
+        };
+    }
 };
 exports.PagosService = PagosService;
 exports.PagosService = PagosService = __decorate([
