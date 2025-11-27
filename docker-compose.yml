@@ -1,26 +1,7 @@
-# Configuración de NGINX con Docker Compose
-# Este archivo sirve como alternativa si usas Docker
-
-version: '3.8'
+# Docker Compose para Banco PSE Backend
+# Solo backend + MySQL (sin nginx/frontend)
 
 services:
-  nginx:
-    image: nginx:alpine
-    container_name: banco-pse-nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/banco-pse.conf:/etc/nginx/conf.d/default.conf
-      - ./nginx/ssl:/etc/nginx/ssl
-      - ./nginx/logs:/var/log/nginx
-    depends_on:
-      - backend
-      - frontend
-    networks:
-      - banco-pse-network
-    restart: unless-stopped
-
   backend:
     build:
       context: ./backend
@@ -32,25 +13,12 @@ services:
       - NODE_ENV=production
       - DB_HOST=mysql
       - DB_PORT=3306
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
+      - DB_USERNAME=banco_user
+      - DB_PASSWORD=banco_password
+      - DB_DATABASE=banco_pse
     depends_on:
-      - mysql
-    networks:
-      - banco-pse-network
-    restart: unless-stopped
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: banco-pse-frontend
-    ports:
-      - "4200:4200"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      mysql:
+        condition: service_healthy
     networks:
       - banco-pse-network
     restart: unless-stopped
@@ -70,6 +38,11 @@ services:
       - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     networks:
       - banco-pse-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
 networks:

@@ -15,6 +15,10 @@ export class Usuario {
   @Column({ name: 'tipoDocumento', nullable: true, length: 20 })
   tipoDocumento: string;
 
+  @Column({ nullable: true, length: 50 })
+  @Index()
+  documento: string;
+
   @Column({ nullable: true, length: 100 })
   nombre: string;
 

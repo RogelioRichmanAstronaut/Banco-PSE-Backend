@@ -11,7 +11,7 @@ export const databaseConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_DATABASE || 'banco_pse',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  synchronize: process.env.NODE_ENV === 'development', // Solo en desarrollo
+  synchronize: false, // Desactivado - usar migraciones SQL
   logging: process.env.NODE_ENV === 'development',
   timezone: 'Z',
   charset: 'utf8mb4',
