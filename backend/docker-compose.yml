@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: banco-pse-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: banco_pse
+      MYSQL_USER: banco_user
+      MYSQL_PASSWORD: banco_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - banco_mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/datos-prueba.sql:/docker-entrypoint-initdb.d/02-datos.sql:ro
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - banco_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ubanco_user", "-pbanco_pass"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: banco-pse-app
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: banco_user
+      DB_PASSWORD: banco_pass
+      DB_DATABASE: banco_pse
+      JWT_SECRET: banco-pse-jwt-secret-production-2025
+      JWT_EXPIRATION: 24h
+      BANK_PUBLIC_URL: http://localhost:3002
+    ports:
+      - "3002:3002"
+    networks:
+      - banco_network
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  banco_mysql_data:
+
+networks:
+  banco_network:
+    driver: bridge
+

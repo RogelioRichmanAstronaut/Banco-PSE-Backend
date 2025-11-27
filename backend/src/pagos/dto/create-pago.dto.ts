@@ -17,10 +17,12 @@ export class CreatePagoDto {
   @IsString()
   nombre_cliente: string;
 
-  @IsUrl()
+  // Permitir localhost para desarrollo
+  @IsUrl({ require_tld: false })
   url_respuesta: string;
 
-  @IsUrl()
+  // Permitir localhost para desarrollo
+  @IsUrl({ require_tld: false })
   url_notificacion: string;
 
   @IsString()
